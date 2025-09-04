@@ -33,29 +33,29 @@ const OffsetDisplay = ({ accounts, instructionData, language }: OffsetDisplayPro
     });
 
     accounts.forEach((account) => {
-      const name = account.name.toUpperCase();
+      const name = account.name.replace(/ /g, "_").toUpperCase();
       addOffset(name, "HEADER", 8);
       addOffset(name, "KEY", 32);
       addOffset(name, "OWNER", 32);
       addOffset(name, "LAMPORTS", 8);
       addOffset(name, "DATA_LEN", 8);
-      
+
       // Add DATA offset
       const dataStartOffset = currentOffset;
-      
+
       // Only show DATA offset for certain account types
       const shouldShowDataOffset = !(
-        account.type === "SPL Mint" || 
-        account.type === "SPL Token" || 
+        account.type === "SPL Mint" ||
+        account.type === "SPL Token" ||
         account.type === "Sysvar Clock" ||
         account.type === "Sysvar Rent" ||
         (account.type === "TypedAccount" && account.customFields && account.customFields.length > 0)
       );
-      
+
       if (shouldShowDataOffset) {
         addOffset(name, "DATA", 0); // Just mark the start of data
       }
-      
+
       // Add individual field offsets for mint accounts
       if (account.type === "SPL Mint") {
         SPL_MINT_FIELDS.forEach((field) => {
@@ -115,7 +115,7 @@ const OffsetDisplay = ({ accounts, instructionData, language }: OffsetDisplayPro
           if (field.type === "[u8;N]") {
             fieldSize = field.size || 1;
           }
-          
+
           offsets.push({
             name: `${name}_${field.name.toUpperCase()}`,
             offset: "0x" + (dataStartOffset + fieldOffset).toString(16).padStart(4, "0"),
@@ -127,7 +127,7 @@ const OffsetDisplay = ({ accounts, instructionData, language }: OffsetDisplayPro
       } else {
         currentOffset += account.dataLength;
       }
-      
+
       currentOffset += padding;
       currentOffset += 8; // Rent exemption
       align();
@@ -151,7 +151,7 @@ const OffsetDisplay = ({ accounts, instructionData, language }: OffsetDisplayPro
       if (field.type === "[u8;N]") {
         fieldSize = field.size || 1;
       }
-      
+
       offsets.push({
         name: `INSTRUCTION_${field.name.toUpperCase()}`,
         offset: "0x" + currentOffset.toString(16).padStart(4, "0"),
@@ -170,7 +170,7 @@ const OffsetDisplay = ({ accounts, instructionData, language }: OffsetDisplayPro
 
   const formatOffset = (name: string, offset: string, comment?: string) => {
     const commentText = comment ? ` // ${comment}` : "";
-    
+
     switch (language) {
       case "Rust":
         return (
