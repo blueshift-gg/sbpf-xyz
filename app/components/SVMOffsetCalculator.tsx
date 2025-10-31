@@ -1551,7 +1551,7 @@ const SVMOffsetCalculator = () => {
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
             <a
-              href="https://github.com/deanmlittle/sbpf-xyz"
+              href="https://github.com/blueshift-gg/sbpf-xyz"
               target="_blank"
               rel="noopener noreferrer"
               className="text-foreground hover:scale-130 transition-all duration-200  text-sm font-medium group flex items-center gap-1"
@@ -1566,7 +1566,7 @@ const SVMOffsetCalculator = () => {
               Contribute on GitHub
             </a>
             <a
-              href="https://x.com/blueshift_gg"
+              href="https://x.com/blueshift"
               target="_blank"
               rel="noopener noreferrer"
               className="text-foreground hover:scale-130 transition-all duration-200 text-sm font-medium group flex items-center gap-1"
