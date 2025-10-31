@@ -1,0 +1,7 @@
+  main = ".open-next/worker.js"
+  name = "sbpf-xyz"
+  compatibility_date = "2025-09-15"
+  compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
+  [assets]
+  directory = ".open-next/assets"
+  binding = "ASSETS"
