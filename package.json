@@ -23,7 +23,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.456.0",
-    "next": "^15.5.0",
+    "next": "^15.5.9",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "shadcn-ui": "^0.9.3",
