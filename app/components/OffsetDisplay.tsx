@@ -1,4 +1,5 @@
 import { Offset, OffsetDisplayProps, INSTRUCTION_DATA_TYPES, SPL_MINT_FIELDS, SPL_TOKEN_FIELDS, TOKEN2022_MINT_FIELDS, SYSVAR_CLOCK_FIELDS, SYSVAR_RENT_FIELDS } from "../types";
+import { Codeblock } from "@blueshift-gg/ui-components";
 
 const OffsetDisplay = ({ accounts, instructionData, language }: OffsetDisplayProps) => {
   const calculateOffsets = () => {
@@ -175,31 +176,31 @@ const OffsetDisplay = ({ accounts, instructionData, language }: OffsetDisplayPro
       case "Rust":
         return (
           <div className="leading-loose">
-            <span className="text-purple-400">const</span>
-            <span className="text-gray-300"> {name}:</span>
-            <span className="text-purple-400"> usize</span>
-            <span className="text-gray-300"> = </span>
-            <span className="text-amber-300">{offset}</span>
-            <span className="text-gray-300">;</span>
-            <span className="text-green-400">{commentText}</span>
+            <span className="text-[#bf9eee]">const</span>
+            <span className="text-shade-secondary"> {name}:</span>
+            <span className="text-[#bf9eee]"> usize</span>
+            <span className="text-shade-secondary"> = </span>
+            <span className="text-[#e7ee98]">{offset}</span>
+            <span className="text-shade-secondary">;</span>
+            <span className="text-[#62e884]">{commentText}</span>
           </div>
         );
       case "C":
         return (
           <div className="leading-loose">
-            <span className="text-purple-400">#define</span>
-            <span className="text-gray-300"> {name}</span>
-            <span className="text-amber-300"> {offset}</span>
-            <span className="text-green-400">{commentText}</span>
+            <span className="text-[#bf9eee]">#define</span>
+            <span className="text-shade-secondary"> {name}</span>
+            <span className="text-[#e7ee98]"> {offset}</span>
+            <span className="text-[#62e884]">{commentText}</span>
           </div>
         );
       case "ASM":
         return (
           <div className="leading-loose">
-            <span className="text-purple-400">.equ</span>
-            <span className="text-gray-300"> {name}, </span>
-            <span className="text-amber-300">{offset}</span>
-            <span className="text-green-400">{commentText}</span>
+            <span className="text-[#bf9eee]">.equ</span>
+            <span className="text-shade-secondary"> {name}, </span>
+            <span className="text-[#e7ee98]">{offset}</span>
+            <span className="text-[#62e884]">{commentText}</span>
           </div>
         );
     }
@@ -208,11 +209,13 @@ const OffsetDisplay = ({ accounts, instructionData, language }: OffsetDisplayPro
   const offsets = calculateOffsets();
 
   return (
-    <div className="bg-gray-700 rounded-b-lg p-4 font-mono text-sm border-t-0 border-x-4 border-b-4 border-black">
-      {offsets.map((offset, idx) => (
-        <div key={idx}>{formatOffset(offset.name, offset.offset, offset.comment)}</div>
-      ))}
-    </div>
+    <Codeblock clipboardText={offsets.map((offset) => `${offset.name}: ${offset.offset}`).join("\n")} language={language === "ASM" ? "assembly" : language === "Rust" ? "rust" : "c"}>
+      <div>
+        {offsets.map((offset, idx) => (
+          <div className="font-code font-medium text-sm px-4" key={idx}>{formatOffset(offset.name, offset.offset, offset.comment)}</div>
+        ))}
+      </div>
+    </Codeblock>
   );
 };
 
