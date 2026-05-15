@@ -2,6 +2,18 @@
   "name": "svm-offsets",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.0.0",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^10",
+      "onFail": "error"
+    }
+  },
+  "engines": {
+    "node": ">=22",
+    "pnpm": "^10"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
