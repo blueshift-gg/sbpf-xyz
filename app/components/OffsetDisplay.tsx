@@ -1,4 +1,4 @@
-import { Offset, OffsetDisplayProps, INSTRUCTION_DATA_TYPES, SPL_MINT_FIELDS, SPL_TOKEN_FIELDS, TOKEN2022_MINT_FIELDS, SYSVAR_CLOCK_FIELDS, SYSVAR_RENT_FIELDS } from "../types";
+import { Offset, OffsetDisplayProps, INSTRUCTION_DATA_TYPES, P_TOKEN_ACCOUNT_FIELDS, P_TOKEN_MINT_FIELDS, SPL_MINT_FIELDS, SPL_TOKEN_FIELDS, TOKEN2022_MINT_FIELDS, SYSVAR_CLOCK_FIELDS, SYSVAR_RENT_FIELDS } from "../types";
 
 const OffsetDisplay = ({ accounts, instructionData, language }: OffsetDisplayProps) => {
   const calculateOffsets = () => {
@@ -45,6 +45,8 @@ const OffsetDisplay = ({ accounts, instructionData, language }: OffsetDisplayPro
 
       // Only show DATA offset for certain account types
       const shouldShowDataOffset = !(
+        account.type === "P-Token Mint" ||
+        account.type === "P-Token Account" ||
         account.type === "SPL Mint" ||
         account.type === "SPL Token" ||
         account.type === "Sysvar Clock" ||
@@ -59,6 +61,26 @@ const OffsetDisplay = ({ accounts, instructionData, language }: OffsetDisplayPro
       // Add individual field offsets for mint accounts
       if (account.type === "SPL Mint") {
         SPL_MINT_FIELDS.forEach((field) => {
+          const fieldSize = INSTRUCTION_DATA_TYPES[field.type];
+          offsets.push({
+            name: `${name}_${field.name.toUpperCase()}`,
+            offset: "0x" + (dataStartOffset + field.offset).toString(16).padStart(4, "0"),
+            comment: `${field.type} (${fieldSize} bytes)`,
+          });
+        });
+        currentOffset += account.dataLength;
+      } else if (account.type === "P-Token Mint") {
+        P_TOKEN_MINT_FIELDS.forEach((field) => {
+          const fieldSize = INSTRUCTION_DATA_TYPES[field.type];
+          offsets.push({
+            name: `${name}_${field.name.toUpperCase()}`,
+            offset: "0x" + (dataStartOffset + field.offset).toString(16).padStart(4, "0"),
+            comment: `${field.type} (${fieldSize} bytes)`,
+          });
+        });
+        currentOffset += account.dataLength;
+      } else if (account.type === "P-Token Account") {
+        P_TOKEN_ACCOUNT_FIELDS.forEach((field) => {
           const fieldSize = INSTRUCTION_DATA_TYPES[field.type];
           offsets.push({
             name: `${name}_${field.name.toUpperCase()}`,

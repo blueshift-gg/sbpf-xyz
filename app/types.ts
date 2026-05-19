@@ -37,6 +37,8 @@ export type InstructionDataField = {
 
 export const ACCOUNT_TYPES = {
   System: 0,
+  "P-Token Account": 165,
+  "P-Token Mint": 82,
   "SPL Token": 165,
   "SPL Mint": 82,
   "Token2022 Account": 165,
@@ -55,6 +57,30 @@ export const TOKEN2022_EXTENSIONS = {
 };
 
 export type Extension = keyof typeof TOKEN2022_EXTENSIONS;
+
+export const P_TOKEN_MINT_FIELDS = [
+  { name: "mint_authority_flag", type: "u32" as InstructionDataType, offset: 0 },
+  { name: "mint_authority", type: "Pubkey" as InstructionDataType, offset: 4 },
+  { name: "supply", type: "u64" as InstructionDataType, offset: 36 },
+  { name: "decimals", type: "u8" as InstructionDataType, offset: 44 },
+  { name: "is_initialized", type: "u8" as InstructionDataType, offset: 45 },
+  { name: "freeze_authority_flag", type: "u32" as InstructionDataType, offset: 46 },
+  { name: "freeze_authority", type: "Pubkey" as InstructionDataType, offset: 50 },
+] as const;
+
+export const P_TOKEN_ACCOUNT_FIELDS = [
+  { name: "mint", type: "Pubkey" as InstructionDataType, offset: 0 },
+  { name: "owner", type: "Pubkey" as InstructionDataType, offset: 32 },
+  { name: "amount", type: "u64" as InstructionDataType, offset: 64 },
+  { name: "delegate_flag", type: "u32" as InstructionDataType, offset: 72 },
+  { name: "delegate", type: "Pubkey" as InstructionDataType, offset: 76 },
+  { name: "state", type: "u8" as InstructionDataType, offset: 108 },
+  { name: "is_native", type: "u32" as InstructionDataType, offset: 109 },
+  { name: "native_amount", type: "u64" as InstructionDataType, offset: 113 },
+  { name: "delegated_amount", type: "u64" as InstructionDataType, offset: 121 },
+  { name: "close_authority_flag", type: "u32" as InstructionDataType, offset: 129 },
+  { name: "close_authority", type: "Pubkey" as InstructionDataType, offset: 133 },
+] as const;
 
 export const SPL_MINT_FIELDS = [
   { name: "mint_authority", type: "Pubkey" as InstructionDataType, offset: 0 },
